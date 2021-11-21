@@ -3,7 +3,6 @@ const { decoding } = require("../helpers/jwt");
 function authentication(req, res, next) {
   try {
     const token = req.headers.authorization.split("Bearer ")[1];
-    console.log("token:", token);
     if (token) {
       req.loggedUser = decoding(token);
       next();

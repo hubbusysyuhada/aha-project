@@ -51,12 +51,6 @@ module.exports = (sequelize, DataTypes) => {
           instance.id = nanoid(25);
           instance.verificationToken = nanoid(100);
         },
-        beforeCreate(instance) {
-          instance.password = bcrypt.hashSync(instance.password, 5);
-        },
-        beforeUpdate(instance) {
-          instance.password = bcrypt.hashSync(instance.password, 5);
-        },
       },
     }
   );

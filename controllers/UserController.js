@@ -4,36 +4,20 @@ const { encoding } = require("../helpers/jwt");
 const { sendConfirmationEmail } = require("../helpers/confirmation");
 const Register = require("../services/Account/Register");
 const Verify = require("../services/Account/Verify");
+const Login = require("../services/Account/Login");
 
 class UserController {
   static async login(req, res, next) {
     const { email, password } = req.body;
-    const user = await Account.findOne({ where: { email } });
-    if (user) {
-      const passCompare = validatePassword(password, user.password);
-      if (!user.isActive && passCompare)
-        return next({
-          name: "custom error",
-          code: 403,
-          message: `please verify your email first/${user.id}`,
-        });
-      if (passCompare)
-        return res.status(200).json({
-          id: user.id,
-          name: user.name,
-          token: encoding({
-            id: user.id,
-            email,
-            name: user.name,
-            birthdate: user.birthdate,
-          }),
-        });
-    }
-    return next({
-      name: "custom error",
-      code: 400,
-      message: "Invalid email/password",
-    });
+    if (!email || !password)
+      return next({
+        name: "custom error",
+        code: 400,
+        message: "All fields are required",
+      });
+    const { response, errors } = await new Login(req.body).authenticate();
+    if (errors) next(errors);
+    else res.status(200).json(response);
   }
 
   static async register(req, res, next) {
@@ -42,7 +26,7 @@ class UserController {
       return next({
         name: "custom error",
         code: 400,
-        message: "All field are required",
+        message: "All fields are required",
       });
 
     const { response, errors } = await new Register(req.body).register();

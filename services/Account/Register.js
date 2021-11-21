@@ -11,7 +11,7 @@ module.exports = class Register {
     this.response = null;
   }
 
-  async validate() {
+  async #validate() {
     const { email, password } = this.body;
     const uniqueEmailCheck = await Account.count({ where: { email } });
     if (uniqueEmailCheck)
@@ -31,7 +31,7 @@ module.exports = class Register {
   }
 
   async register() {
-    await this.validate();
+    await this.#validate();
     if (this.errors) return this.serialize();
     const { email, password, name } = this.body;
     const params = {
