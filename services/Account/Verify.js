@@ -11,7 +11,7 @@ module.exports = class Verify {
     this.response = null;
   }
 
-  async validate() {
+  async #validate() {
     const { accountId: id, token: verificationToken } = this.body;
     const account = await Account.findOne({ where: { id, verificationToken } });
     if (!account)
@@ -29,9 +29,9 @@ module.exports = class Verify {
   }
 
   async verify() {
-    await this.validate();
+    await this.#validate();
     if (this.errors) return this.serialize();
-    const { accountId: id, token: verificationToken } = this.body;
+    const { accountId: id } = this.body;
     const [result] = await Account.update(
       { isActive: true },
       {
