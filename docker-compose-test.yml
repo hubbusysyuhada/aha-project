@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  postgresql:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=todos_test
+      - POSTGRES_DB=todos_test
+    ports:
+      - 5432:5432

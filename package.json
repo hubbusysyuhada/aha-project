@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "NODE_ENV=test jest",
-    "prepare-test": "NODE_ENV=test sequelize db:create;NODE_ENV=test sequelize db:migrate",
+    "prepare-test": "docker compose -f docker-compose-test.yml -p todos-test up -d",
+    "migrate-test": "NODE_ENV=test npx sequelize db:migrate",
+    "clean-test": "docker compose -f docker-compose-test.yml -p todos-test down --volumes",
     "dev": "NODE_ENV=development nodemon app.js",
     "start": "node app.js",
     "prepare": "husky install"

@@ -8,9 +8,9 @@
   },
   "test": {
     "username": "postgres",
-    "password": null,
+    "password": "todos_test",
     "database": "todos_test",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "production": {

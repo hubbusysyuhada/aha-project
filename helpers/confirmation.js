@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 
 async function sendConfirmationEmail(email, payload) {
-  console.log("kemari");
   const { id, token } = payload;
   try {
     let transporter = nodemailer.createTransport({
